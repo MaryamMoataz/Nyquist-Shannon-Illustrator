@@ -12,7 +12,7 @@ class MainWindow(QtWidgets.QMainWindow):
         uic.loadUi('mainwindow.ui', self)
 
         # calling the compose function using the compose button
-        self.ComposeButton.clicked.connect(self.compose)
+        self.compose_button.clicked.connect(self.compose)
 
         # initializing frequency, magnitude, and phase shift variables
         self.frequency = 1
@@ -23,9 +23,9 @@ class MainWindow(QtWidgets.QMainWindow):
         # clearing the widget so that there aren't several plots on top of each other
         self.composer_widget.clear()
         # reading the inputs from the UI line edit elements
-        self.frequency = float(self.lineEdit.text()) # frequency
-        self.magnitude = float(self.lineEdit_2.text() ) # magnitude
-        self.phase_shift = float(self.lineEdit_3.text()) # phase shift
+        self.frequency = float(self.freq_line_edit.text()) # frequency
+        self.magnitude = float(self.magnitude_line_edit.text() ) # magnitude
+        self.phase_shift = float(self.phase_line_edit.text()) # phase shift
         
         time = arange(0.0, 5.0, 0.02) # start:0, end:5, step:200 ms intervals
         # sinusoidal changing with input frequency, magnitude, and phase shift
