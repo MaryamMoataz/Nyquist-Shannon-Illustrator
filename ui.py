@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QFileDialog, QSlider
 
 
 class Ui_MainWindow(object):
@@ -135,6 +136,9 @@ class Ui_MainWindow(object):
 "color: rgb(181, 126, 220);\n"
 "")
         self.horizontal_slider.setOrientation(QtCore.Qt.Horizontal)
+        self.horizontal_slider.setMinimum(5)
+        self.horizontal_slider.setPageStep(5)
+        self.horizontal_slider.setTickPosition(QSlider.TicksBelow)
         self.horizontal_slider.setObjectName("horizontal_slider")
         self.compose_button = QtWidgets.QPushButton(self.centralwidget)
         self.compose_button.setGeometry(QtCore.QRect(1010, 260, 171, 31))
