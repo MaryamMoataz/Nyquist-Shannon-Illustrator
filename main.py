@@ -8,6 +8,7 @@ import pathlib
 import numpy as np
 import pandas as pd
 from numpy import sin, pi, arange
+
 import matplotlib.pyplot as plt
 
 
@@ -30,6 +31,20 @@ class MainWindow(QtWidgets.QMainWindow):
         
         # calling the compose function using the compose button
         self.compose_button.clicked.connect(self.compose)
+
+        self.action_open.triggered.connect(self.open)
+        
+
+        # initializing frequency, magnitude, and phase shift variables
+        self.frequency = 1
+        self.magnitude = 1
+        self.phase_shift = 0
+    def open(self):
+        self.main_signal_widget.clear()
+        self.main_signal_widget.setBackground('w')
+        files_name = QtWidgets.QFileDialog.getOpenFileName(self, 'Open only CSV ', os.getenv('HOME'), "csv(*.csv)")
+        path = files_name[0]
+
         # calling the summaption function using the confirm button
         self.confirm_button.clicked.connect(self.composer_summation)
         # calling the save function using the save action from the menubar
@@ -54,6 +69,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.fmaxtuble = np.where(FtAmp > noise)
         self.maxFreq = max(self.fmaxtuble[0])
         print(self.maxFreq)
+        self.main_signal_widget.plot(self.time_col, self.amp_col,pen='blue')
+        #freqs = np.fft.fftfreq(len(self.amp_col))
+        #print(freqs)
+    
         self.main_signal_widget.plot(self.time_col, self.amp_col)
         #freqs = np.fft.fftfreq(len(self.amp_col))
         #print(freqs)   
@@ -69,6 +88,9 @@ class MainWindow(QtWidgets.QMainWindow):
         
         #time = arange(0.0, 5.0, 0.02) # start:0, end:5, step:200 ms intervals
         # sinusoidal changing with input frequency, magnitude, and phase shift
+
+        signal = self.magnitude * sin(2 * pi * self.frequency * time + self.phase_shift) 
+        self.composer_widget.plot(time, signal)  # plotting
         
         self.signal = self.magnitude * sin(2 * pi * self.frequency * self.time + self.phase_shift) 
         
