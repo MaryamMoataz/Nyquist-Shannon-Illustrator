@@ -19,7 +19,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # calling the compose function using the compose button
         self.compose_button.clicked.connect(self.compose)
         self.action_open.triggered.connect(self.open)
-        self.draw_button.clicked.connect(self.draw)
+        
 
         # initializing frequency, magnitude, and phase shift variables
         self.frequency = 1
