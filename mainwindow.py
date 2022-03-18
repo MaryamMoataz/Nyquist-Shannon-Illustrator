@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QFileDialog, QSlider
 
 
 class Ui_MainWindow(object):
@@ -113,6 +114,9 @@ class Ui_MainWindow(object):
 "background-color: rgb(255, 255, 255);\n"
 "color: rgb(181, 126, 220);\n"
 "")
+        self.horizontal_slider.setMinimum(5)
+        self.horizontal_slider.setPageStep(5)
+        self.horizontal_slider.setTickPosition(QSlider.TicksBelow)
         self.horizontal_slider.setOrientation(QtCore.Qt.Horizontal)
         self.horizontal_slider.setObjectName("horizontal_slider")
         self.verticalLayout.addWidget(self.horizontal_slider)
@@ -254,7 +258,7 @@ class Ui_MainWindow(object):
         self.confirm_button.setText(_translate("MainWindow", "Confirm"))
         self.move_to_main.setToolTip(_translate("MainWindow", "<html><head/><body><p><br/></p></body></html>"))
         self.move_to_main.setWhatsThis(_translate("MainWindow", "<html><head/><body><p>dsds</p></body></html>"))
-        self.move_to_main.setText(_translate("MainWindow", "Move to main"))
+        self.move_to_main.setText(_translate("MainWindow", "Sample"))
         self.delete_button.setToolTip(_translate("MainWindow", "<html><head/><body><p><br/></p></body></html>"))
         self.delete_button.setWhatsThis(_translate("MainWindow", "<html><head/><body><p>dsds</p></body></html>"))
         self.delete_button.setText(_translate("MainWindow", "Delete"))
