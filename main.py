@@ -57,6 +57,29 @@ class MainWindow(QtWidgets.QMainWindow):
         self.horizontal_slider.setTickInterval(int(1+self.maxFreq))
         return self.sampling_factor
    
+    def sampling(self):
+        self.main_signal_widget.clear()
+        self.changedvalue()
+
+        if self.sampling_factor == 0:
+
+            self.main_signal_widget.plot(self.time_col, self.amp_col)
+
+        else:
+            self.size = int(len((self.time_col))) - 1
+            self.step = int(self.size / self.horizontal_slider.value())
+            self.data_sampled_list = [self.amp_col[0]]
+            self.time_sampled_list = [self.time_col[0]]
+            for index in range(int(self.step), self.size + 1, int(self.step)):
+                self.data_sampled_list.append(self.amp_col[index])
+                self.time_sampled_list.append(self.time_col[index])
+            self.Data_sampled_nparray = np.array(self.data_sampled_list)
+            self.time_sampled_nparray = np.array(self.time_sampled_list)
+            
+            self.main_signal_widget.plot(self.time_col, self.amp_col,pen='red')
+            self.main_signal_widget.plot(self.time_sampled_nparray, self.Data_sampled_nparray, symbol="o")
+
+
     
     def compose(self):
         # clearing the widget so that there aren't several plots on top of each other
