@@ -43,7 +43,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.fmaxtuble = np.where(FtAmp > noise)
         self.maxFreq = max(self.fmaxtuble[0])
         print(self.maxFreq)
-        
+        self.main_signal_widget.plot(self.time_col, self.amp_col,pen='blue')
+        #freqs = np.fft.fftfreq(len(self.amp_col))
+        #print(freqs)
     
     
     def compose(self):
