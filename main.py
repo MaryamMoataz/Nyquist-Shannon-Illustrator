@@ -20,6 +20,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.compose_button.clicked.connect(self.compose)
         self.action_open.triggered.connect(self.open)
         self.horizontal_slider.valueChanged.connect( self.sampling)
+        self.draw_button.clicked.connect(self.plotSeparateSamples)
         
 
         # initializing frequency, magnitude, and phase shift variables
@@ -78,6 +79,10 @@ class MainWindow(QtWidgets.QMainWindow):
             
             self.main_signal_widget.plot(self.time_col, self.amp_col,pen='red')
             self.main_signal_widget.plot(self.time_sampled_nparray, self.Data_sampled_nparray, symbol="o")
+    def plotSeparateSamples(self):
+        self.reconstructed_graph_widget.clear()
+        self.reconstructed_graph_widget.plot(self.time_sampled_nparray, self.Data_sampled_nparray, pen='blue')
+        self.reconstructed_graph_widget.setBackground('black')
 
 
     
