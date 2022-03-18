@@ -1,11 +1,14 @@
-from signal import signal
-from PyQt5 import QtWidgets, uic
-import sys 
-from numpy import sin, pi, arange  # ceil, floor, linspace, cos
-import matplotlib.pyplot as plt
-import pandas as pd
+from pickle import GLOBAL
+from PyQt5 import QtWidgets, QtCore, uic
+from PyQt5.QtWidgets import QSlider
+import pyqtgraph as pg
+import sys  # We need sys so that we can pass argv to QApplication
+import os
+import pathlib
 import numpy as np
-#from openpyxl import Workbook
+import pandas as pd
+from numpy import sin, pi, arange
+import matplotlib.pyplot as plt
 
 
 sum_of_signals=[]
@@ -31,8 +34,29 @@ class MainWindow(QtWidgets.QMainWindow):
         self.confirm_button.clicked.connect(self.composer_summation)
         # calling the save function using the save action from the menubar
         self.action_save.triggered.connect(self.save) 
+        self.action_open.triggered.connect(self.open)
 
-       
+    def open(self):
+        self.main_signal_widget.clear()
+        #self.main_signal_widget.setBackground('w')
+        files_name = QtWidgets.QFileDialog.getOpenFileName(self, 'Open only CSV ', os.getenv('HOME'), "csv(*.csv)")
+        path = files_name[0]
+
+        pathlib.Path(path).suffix == ".csv"
+        data = pd.read_csv(path)
+        self.time_col = data.values[:, 0]
+        self.amp_col = data.values[:, 1]
+        FtAmp = np.fft.fft(self.amp_col)
+        FtAmp = FtAmp[0:int(len(self.amp_col) /2)]
+        FtAmp = abs(FtAmp)
+        maxpower = max(FtAmp)
+        noise = (maxpower / 10)
+        self.fmaxtuble = np.where(FtAmp > noise)
+        self.maxFreq = max(self.fmaxtuble[0])
+        print(self.maxFreq)
+        self.main_signal_widget.plot(self.time_col, self.amp_col)
+        #freqs = np.fft.fftfreq(len(self.amp_col))
+        #print(freqs)   
 
     def compose(self):
         # clearing the widget so that there aren't several plots on top of each other (overlapped)
@@ -69,9 +93,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
         df = pd.concat([list1,list2], ignore_index=True, axis=1)
 
-        df.to_excel('output.xlsx',index = False)   
+        df.to_csv('output.csv',index = False)   
        
-        # df.to_csv('file.csv',index=False) for csv
+        
 
 
 
