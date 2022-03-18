@@ -19,6 +19,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # calling the compose function using the compose button
         self.compose_button.clicked.connect(self.compose)
         self.action_open.triggered.connect(self.open)
+        self.horizontal_slider.valueChanged.connect( self.sampling)
         
 
         # initializing frequency, magnitude, and phase shift variables
@@ -27,7 +28,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.phase_shift = 0
     def open(self):
         self.main_signal_widget.clear()
-        self.main_signal_widget.setBackground('w')
         files_name = QtWidgets.QFileDialog.getOpenFileName(self, 'Open only CSV ', os.getenv('HOME'), "csv(*.csv)")
         path = files_name[0]
         
@@ -43,10 +43,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self.fmaxtuble = np.where(FtAmp > noise)
         self.maxFreq = max(self.fmaxtuble[0])
         print(self.maxFreq)
-        self.main_signal_widget.plot(self.time_col, self.amp_col,pen='blue')
+        self.main_signal_widget.plot(self.time_col, self.amp_col,pen='red')
         #freqs = np.fft.fftfreq(len(self.amp_col))
         #print(freqs)
     
+    def changedvalue(self):
+        self.min_slider = 0
+        self.max_slider = 3 * self.maxFreq
+        self.horizontal_slider.setMinimum(self.min_slider)
+        self.horizontal_slider.setMaximum(int(self.max_slider))
+        self.sampling_factor = self.horizontal_slider.value()
+        print(self.sampling_factor)
+        self.horizontal_slider.setTickInterval(int(1+self.maxFreq))
+        return self.sampling_factor
+   
     
     def compose(self):
         # clearing the widget so that there aren't several plots on top of each other
