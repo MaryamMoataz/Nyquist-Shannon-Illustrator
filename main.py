@@ -40,13 +40,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.draw_button.clicked.connect(self.plotSeparateSamples)
         self.ui.action_save.triggered.connect(self.save)
         self.ui.move_to_main.clicked.connect(self.move_to_main)
+        self.ui.show_hide_button.clicked.connect(self.hide)
         # self.combobox.currentIndexChanged.connect(self.change_value)
+        
         
 
         # initializing frequency, magnitude, and phase shift variables
         self.frequency = 1
         self.magnitude = 1
         self.phase_shift = 0
+        self.showstatus=1
 
     def open(self):
         self.ui.main_signal_widget.clear()
@@ -73,6 +76,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.main_signal_widget.plot(self.time_col, self.amp_col)
         #freqs = np.fft.fftfreq(len(self.amp_col))
         #print(freqs)
+    def hide(self):
+        if self.showstatus==1:
+         self.ui.reconstructed_graph_widget.hide()
+         self.showstatus=0
+        elif self.showstatus==0:
+         self.ui.reconstructed_graph_widget.show()
+         self.showstatus=1
 
     def changedvalue(self):
         self.min_slider = 0
