@@ -37,7 +37,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.confirm_button.clicked.connect(self.composer_summation)
         self.ui.delete_button.clicked.connect(self.delete_signal)
         self.ui.horizontal_slider.valueChanged.connect(self.sampling)
-        self.ui.draw_button.clicked.connect(self.plotSeparateSamples)
+        self.ui.draw_button.clicked.connect(self.sinc_interpolation)
         self.ui.action_save.triggered.connect(self.save)
         self.ui.move_to_main.clicked.connect(self.move_to_main)
         self.ui.show_hide_button.clicked.connect(self.hide)
@@ -115,6 +115,18 @@ class MainWindow(QtWidgets.QMainWindow):
 
             self.ui.main_signal_widget.plot(self.time_col, self.amp_col, pen='red')
             self.ui.main_signal_widget.plot(self.time_sampled_nparray, self.Data_sampled_nparray, symbol="o")
+            #self.sinc_interpolation()
+
+    def sinc_interpolation(self):
+        self.ui.reconstructed_graph_widget.clear()
+       # if len(self.Data_sampled_nparray) != len(self.time_sampled_nparray):
+          #  raise ValueError('sampled Data and sampled time must be the same length')
+        # Find the period
+        self.Period = self.time_sampled_nparray[1] - self.time_sampled_nparray[0]
+        self.sincMagnitude = np.tile(self.time_col, (len(self.time_sampled_nparray), 1)) - np.tile(
+            self.time_sampled_nparray[:, np.newaxis], (1, len(self.time_col)))
+        self.reconstruct = np.dot(self.Data_sampled_nparray, np.sinc(self.sincMagnitude / self.Period))
+        self.ui.reconstructed_graph_widget.plot(self.time_col, self.reconstruct,pen='red')
 
     def plotSeparateSamples(self):
         self.ui.reconstructed_graph_widget.clear()
