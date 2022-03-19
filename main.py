@@ -42,13 +42,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.move_to_main.clicked.connect(self.move_to_main)
         # self.combobox.currentIndexChanged.connect(self.change_value)
         
-
         # initializing frequency, magnitude, and phase shift variables
         self.frequency = 1
         self.magnitude = 1
         self.phase_shift = 0
+        self.condition = 0
+        self.amplitude = []
 
     def open(self):
+        self.condition = 1
         self.ui.main_signal_widget.clear()
         #self.main_signal_widget.setBackground('w')
         files_name = QtWidgets.QFileDialog.getOpenFileName(self, 'Open only CSV ', os.getenv('HOME'), "csv(*.csv)")
@@ -56,57 +58,66 @@ class MainWindow(QtWidgets.QMainWindow):
 
         pathlib.Path(path).suffix == ".csv"
         data = pd.read_csv(path)
-        self.time_col = data.values[:, 0]
+        self.time = data.values[:, 0]
         self.amp_col = data.values[:, 1]
-        FtAmp = np.fft.fft(self.amp_col)
-        FtAmp = FtAmp[0:int(len(self.amp_col) /2)]
+        self.conditioning()
+        self.plotting()
+       
+
+    def plotting(self):
+        self.conditioning()
+        FtAmp = np.fft.fft(self.amplitude)
+        FtAmp = FtAmp[0:int(len(self.amplitude) /2)]
         FtAmp = abs(FtAmp)
         maxpower = max(FtAmp)
         noise = (maxpower / 10)
         self.fmaxtuble = np.where(FtAmp > noise)
         self.maxFreq = max(self.fmaxtuble[0])
-        print(self.maxFreq)
-        self.ui.main_signal_widget.plot(self.time_col, self.amp_col,pen='blue')
-        #freqs = np.fft.fftfreq(len(self.amp_col))
+       # print(self.maxFreq)
+        self.ui.main_signal_widget.plot(self.time, self.amplitude,pen='blue')
+        #freqs = np.fft.fftfreq(len(self.amplitude))
         #print(freqs)
     
-        self.ui.main_signal_widget.plot(self.time_col, self.amp_col)
-        #freqs = np.fft.fftfreq(len(self.amp_col))
+        self.ui.main_signal_widget.plot(self.time, self.amplitude)
+        #freqs = np.fft.fftfreq(len(self.amplitude))
         #print(freqs)
 
     def changedvalue(self):
+        self.conditioning()
         self.min_slider = 0
         self.max_slider = 3 * self.maxFreq
         self.ui.horizontal_slider.setMinimum(self.min_slider)
         self.ui.horizontal_slider.setMaximum(int(self.max_slider))
         self.sampling_factor = self.ui.horizontal_slider.value()
-        print(self.sampling_factor)
+       # print(self.sampling_factor)
         self.ui.horizontal_slider.setTickInterval(int(1 + self.maxFreq))
         return self.sampling_factor
 
     def sampling(self):
+        self.conditioning()
         self.ui.main_signal_widget.clear()
         self.changedvalue()
 
         if self.sampling_factor == 0:
 
-            self.ui.main_signal_widget.plot(self.time_col, self.amp_col)
+            self.ui.main_signal_widget.plot(self.time, self.amplitude )
 
         else:
-            self.size = int(len((self.time_col))) - 1
+            self.size = int(len((self.time))) - 1
             self.step = int(self.size / self.ui.horizontal_slider.value())
-            self.data_sampled_list = [self.amp_col[0]]
-            self.time_sampled_list = [self.time_col[0]]
+            self.data_sampled_list = [self.amplitude[0]]
+            self.time_sampled_list = [self.time[0]]
             for index in range(int(self.step), self.size + 1, int(self.step)):
-                self.data_sampled_list.append(self.amp_col[index])
-                self.time_sampled_list.append(self.time_col[index])
+                self.data_sampled_list.append(self.amplitude[index])
+                self.time_sampled_list.append(self.time[index])
             self.Data_sampled_nparray = np.array(self.data_sampled_list)
             self.time_sampled_nparray = np.array(self.time_sampled_list)
 
-            self.ui.main_signal_widget.plot(self.time_col, self.amp_col, pen='red')
+            self.ui.main_signal_widget.plot(self.time, self.amplitude, pen='red')
             self.ui.main_signal_widget.plot(self.time_sampled_nparray, self.Data_sampled_nparray, symbol="o")
 
     def plotSeparateSamples(self):
+        self.conditioning()
         self.ui.reconstructed_graph_widget.clear()
         self.ui.reconstructed_graph_widget.plot(self.time_sampled_nparray, self.Data_sampled_nparray, pen='blue')
         self.ui.reconstructed_graph_widget.setBackground('black')
@@ -131,10 +142,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.composer_widget.plot(self.time, self.signal)  # plotting
 
 
-
-          
-
     def composer_summation(self):
+        self.condition = 2
         global counter
         self.ui.summation_graph_widget.clear()
         #time = arange(0.0, 5.0, 0.02) # start:0, end:5, step:200 ms intervals
@@ -142,24 +151,31 @@ class MainWindow(QtWidgets.QMainWindow):
         self.sum_of_signals.append(self.signal) # appends an element to the end of the list
         self.ui.combobox.addItem(str(counter + 1))
         self.ui.summation_graph_widget.plot(self.time, sum(self.sum_of_signals))  # plotting
-
         counter=counter+1
+        self.conditioning()
 
     def move_to_main(self):
          self.ui.main_signal_widget.clear()
-         self.ui.main_signal_widget.plot(self.time, sum(self.sum_of_signals))
+         #self.ui.main_signal_widget.plot(self.time, sum(self.sum_of_signals))
+         self.conditioning()
+         self.plotting()
+         
+
+    def conditioning(self):
+        if self.condition == 1:
+            self.amplitude = self.amp_col
+        elif self.condition == 2:
+            self.amplitude = sum(self.sum_of_signals)
 
     def delete_signal(self):
         global counter
         # if self.ui.combobox.currentIndex() == -1:
         #     self.sum_of_signals.pop(self.sum_of_signals[0])
-
-
-        index = self.ui.combobox.currentIndex()-1
-        self.ui.combobox.removeItem(self.ui.combobox.currentIndex())
-        print(index)
+        index = self.ui.combobox.currentIndex() #-1
+        self.ui.combobox.removeItem(index)
+        #print(index)
         self.sum_of_signals.pop(index)
-        print(index)
+        #print(index)
 
         self.ui.summation_graph_widget.clear()
         self.ui.summation_graph_widget.plot(self.time, sum(self.sum_of_signals))
