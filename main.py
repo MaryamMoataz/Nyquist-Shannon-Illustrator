@@ -40,6 +40,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.draw_button.clicked.connect(self.plotSeparateSamples)
         self.ui.action_save.triggered.connect(self.save)
         self.ui.move_to_main.clicked.connect(self.move_to_main)
+        self.ui.show_hide_button.clicked.connect(self.hide)
+    
         # self.combobox.currentIndexChanged.connect(self.change_value)
         
         # initializing frequency, magnitude, and phase shift variables
@@ -48,6 +50,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.phase_shift = 0
         self.condition = 0
         self.amplitude = []
+        self.showstatus=1
 
     def open(self):
         self.condition = 1
@@ -62,7 +65,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.amp_col = data.values[:, 1]
         self.conditioning()
         self.plotting()
-       
+    
+    def hide(self):
+        if self.showstatus==1:
+         self.ui.reconstructed_graph_widget.hide()
+         self.showstatus=0
+        elif self.showstatus==0:
+         self.ui.reconstructed_graph_widget.show()
+         self.showstatus=1
 
     def plotting(self):
         self.conditioning()
