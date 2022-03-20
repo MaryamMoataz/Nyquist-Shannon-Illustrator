@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1046, 611)
+        MainWindow.resize(1130, 761)
         MainWindow.setStyleSheet("background-color: rgb(220, 208, 255);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -110,6 +110,9 @@ class Ui_MainWindow(object):
 "background-color: rgb(255, 255, 255);\n"
 "color: rgb(181, 126, 220);\n"
 "")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("D:\\reems code\\Nyquist-Shannon-Illustrator-main\\../../semester 6/DSP/icons/draw.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.draw_button.setIcon(icon)
         self.draw_button.setObjectName("draw_button")
         self.verticalLayout.addWidget(self.draw_button)
         self.horizontal_slider = QtWidgets.QSlider(self.layoutWidget)
@@ -135,6 +138,9 @@ class Ui_MainWindow(object):
         self.show_hide_button.setStyleSheet("font: 14pt \"MS Shell Dlg 2\";\n"
 "background-color: rgb(255, 255, 255);\n"
 "color: rgb(181, 126, 220);")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("D:\\reems code\\Nyquist-Shannon-Illustrator-main\\../../semester 6/DSP/icons/hidee.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.show_hide_button.setIcon(icon1)
         self.show_hide_button.setObjectName("show_hide_button")
         self.verticalLayout_2.addWidget(self.show_hide_button)
         self.gridLayout.addWidget(self.splitter, 0, 0, 1, 1)
@@ -190,6 +196,9 @@ class Ui_MainWindow(object):
         self.compose_button.setStyleSheet("font: 14pt \"MS Shell Dlg 2\";\n"
 "background-color: rgb(255, 255, 255);\n"
 "color: rgb(181, 126, 220);")
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("D:\\reems code\\Nyquist-Shannon-Illustrator-main\\../../semester 6/DSP/icons/compose.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.compose_button.setIcon(icon2)
         self.compose_button.setObjectName("compose_button")
         self.horizontalLayout_5.addWidget(self.compose_button)
         self.confirm_button = QtWidgets.QPushButton(self.widget)
@@ -197,6 +206,9 @@ class Ui_MainWindow(object):
         self.confirm_button.setStyleSheet("font: 14pt \"MS Shell Dlg 2\";\n"
 "background-color: rgb(255, 255, 255);\n"
 "color: rgb(181, 126, 220);")
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap("D:\\reems code\\Nyquist-Shannon-Illustrator-main\\../../semester 6/DSP/icons/confirmmm.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.confirm_button.setIcon(icon3)
         self.confirm_button.setObjectName("confirm_button")
         self.horizontalLayout_5.addWidget(self.confirm_button)
         self.verticalLayout_3.addLayout(self.horizontalLayout_5)
@@ -216,11 +228,15 @@ class Ui_MainWindow(object):
         self.combobox.setCurrentText("")
         self.combobox.setObjectName("combobox")
         self.verticalLayout_4.addWidget(self.combobox)
-        self.move_to_main = QtWidgets.QPushButton(self.widget1)
+        self.move_to_main = QtWidgets.QCommandLinkButton(self.widget1)
         self.move_to_main.setMinimumSize(QtCore.QSize(81, 23))
         self.move_to_main.setStyleSheet("font: 14pt \"MS Shell Dlg 2\";\n"
 "background-color: rgb(255, 255, 255);\n"
 "color: rgb(181, 126, 220);")
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap("D:\\reems code\\Nyquist-Shannon-Illustrator-main\\../../semester 6/DSP/icons/move.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.move_to_main.setIcon(icon4)
+        self.move_to_main.setDescription("")
         self.move_to_main.setObjectName("move_to_main")
         self.verticalLayout_4.addWidget(self.move_to_main)
         self.delete_button = QtWidgets.QPushButton(self.widget1)
@@ -228,6 +244,9 @@ class Ui_MainWindow(object):
         self.delete_button.setStyleSheet("font: 14pt \"MS Shell Dlg 2\";\n"
 "background-color: rgb(255, 255, 255);\n"
 "color: rgb(181, 126, 220);")
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap("D:\\reems code\\Nyquist-Shannon-Illustrator-main\\../../semester 6/DSP/icons/delete.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.delete_button.setIcon(icon5)
         self.delete_button.setObjectName("delete_button")
         self.verticalLayout_4.addWidget(self.delete_button)
         self.gridLayout_2.addWidget(self.splitter_2, 0, 0, 1, 1)
@@ -235,7 +254,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.tab_widget)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1046, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1130, 26))
         self.menubar.setObjectName("menubar")
         self.menubar_2 = QtWidgets.QMenu(self.menubar)
         self.menubar_2.setObjectName("menubar_2")
@@ -244,8 +263,14 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
         self.action_open = QtWidgets.QAction(MainWindow)
+        icon6 = QtGui.QIcon()
+        icon6.addPixmap(QtGui.QPixmap("D:\\reems code\\Nyquist-Shannon-Illustrator-main\\../../semester 6/DSP/icons/openagain.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.action_open.setIcon(icon6)
         self.action_open.setObjectName("action_open")
         self.action_save = QtWidgets.QAction(MainWindow)
+        icon7 = QtGui.QIcon()
+        icon7.addPixmap(QtGui.QPixmap("D:\\reems code\\Nyquist-Shannon-Illustrator-main\\../../semester 6/DSP/icons/saveagain.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.action_save.setIcon(icon7)
         self.action_save.setObjectName("action_save")
         self.menubar_2.addAction(self.action_open)
         self.menubar_2.addAction(self.action_save)
@@ -280,6 +305,7 @@ class Ui_MainWindow(object):
         self.delete_button.setToolTip(_translate("MainWindow", "<html><head/><body><p><br/></p></body></html>"))
         self.delete_button.setWhatsThis(_translate("MainWindow", "<html><head/><body><p>dsds</p></body></html>"))
         self.delete_button.setText(_translate("MainWindow", "Delete"))
+        self.delete_button.setShortcut(_translate("MainWindow", "Del"))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.tab_4), _translate("MainWindow", "Tab 2"))
         self.menubar_2.setTitle(_translate("MainWindow", "File"))
         self.action_open.setText(_translate("MainWindow", "Open"))
